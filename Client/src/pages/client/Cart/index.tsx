@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../../compoment/footer";
 import Header from "../../../compoment/header";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
@@ -11,11 +11,19 @@ import { Link } from "react-router-dom";
 
 const cart = () => {
     const dispatch = useAppDispatch();
+    // const [user, setUser] = useState()
+    const user = JSON.parse(localStorage.getItem("user")!)
+
+
     // const navigate = useNavigate();
 
     const [messageApi, contextHolder] = message.useMessage();
 
     const carts = useAppSelector((state) => state.Cart.carts);
+    // console.log(Allcarts);
+
+    // const carts = Allcarts?.filter(u => u._id === user._id)
+
     const products = useAppSelector((state) => state.Product.products);
     let totalMoney: number = 0;
     carts?.map(item => {
@@ -24,17 +32,25 @@ const cart = () => {
 
     // const [quantity, setQuantity] = useState(1)
     useEffect(() => {
-        // setIsLoading(true);
-        dispatch(getAllCart())
+        dispatch(getAllCart(user._id))
         dispatch(getAllProduct())
+    }, [])
+    useEffect(() => {
+        // setIsLoading(true);
+        dispatch(getAllCart(user._id))
+        dispatch(getAllProduct())
+        // const userStore = JSON.parse(localStorage.getItem("user")!)
+        // if (userStore) {
+        //     setUser(userStore)
+        // }
     }, [dispatch]);
 
     const confirm = async (id: string) => {
-        await dispatch(removeCart(id));
-        messageApi.open({
-            type: 'success',
-            content: 'Delete category successfully!',
-        });
+        const confirm = window.confirm("Bạn có muốn xóa không?")
+        if (confirm) {
+            await dispatch(removeCart(id));
+            message.success("Xóa sản phẩm thành công");
+        }
     }
 
     return <>

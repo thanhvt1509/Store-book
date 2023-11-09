@@ -8,7 +8,7 @@ const store = configureStore({
         Category: CategorySlice,
         Product: ProductSlice,
         Cart: CartSlice,
-        Order: CartSlice
+        Order: CartSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

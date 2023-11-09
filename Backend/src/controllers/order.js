@@ -1,5 +1,7 @@
 import Order from '../models/order'
 import OrderDetail from '../models/order_detail'
+import Product from '../models/product'
+import Cart from '../models/cart'
 
 export const getAll = async (req, res) => {
     try {
@@ -39,8 +41,8 @@ export const get = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const { fullName, phoneNumber, address, vourcher_code, note, pay_method, totalMoney, carts } = req.body
-        const newOrder = { fullName, phoneNumber, address, vourcher_code, note, pay_method, totalMoney }
+        const { userId, fullName, phoneNumber, address, vourcher_code, note, pay_method, totalMoney, carts } = req.body
+        const newOrder = { userId, fullName, phoneNumber, address, vourcher_code, note, pay_method, totalMoney }
         const order = await Order.create(newOrder);
         if (!order) {
             return res.status(404).json({
@@ -54,7 +56,6 @@ export const create = async (req, res) => {
             quantity,
             totalMoney
         }));
-        console.log(orderDetails);
         await orderDetails.forEach(async (newOrderDetail) => {
             const orderDetail = await OrderDetail.create(newOrderDetail)
             if (!orderDetail) {
@@ -67,7 +68,21 @@ export const create = async (req, res) => {
                     orderDetails: orderDetail._id,
                 },
             });
+            const product = await Product.findById({ _id: orderDetail.productId })
+            await Product.findByIdAndUpdate(
+                { _id: orderDetail.productId },
+                {
+                    buyCounts: orderDetail.quantity,
+                    quantity: product.quantity - orderDetail.quantity
+                },
+                { new: true }
+            )
         });
+        const allCart = await Cart.find()
+        const userCart = await allCart.filter(cart => cart.userId === newOrder.userId)
+        await userCart.forEach(async item => {
+            await Cart.findOneAndDelete({ _id: item._id })
+        })
         return res.status(200).json(order);
     } catch (error) {
         return res.status(500).json({

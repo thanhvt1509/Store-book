@@ -3,6 +3,10 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 const cartSchema = new mongoose.Schema(
     {
+        userId: {
+            type: String,
+            required: true,
+        },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Product",

@@ -1,15 +1,50 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getAllCategory } from "../redux/Reducer/CategorySlice";
+import { Link } from "react-router-dom";
+import { getAllCart, removeCart } from "../redux/Reducer/CartSlice";
+import { getAllProduct } from "../redux/Reducer/ProductSlice";
+import IProduct from "../interface/product";
+import { message } from "antd";
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const categories = useAppSelector((state) => state.Category.categories);
+    const carts = useAppSelector((state) => state.Cart.carts);
+
+    const user = JSON.parse(localStorage.getItem("user")!)
+
+    const products = useAppSelector((state) => state.Product.products);
+    let totalMoney: number = 0;
+    carts?.map(item => {
+        totalMoney += item.totalMoney
+    })
+
+    const confirm = async (id: string) => {
+        const confirm = window.confirm("Bạn có muốn xóa không?")
+        if (confirm) {
+            await dispatch(removeCart(id));
+            message.success("Xóa sản phẩm thành công");
+        }
+    }
 
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllCategory())
+        if (user) {
+            dispatch(getAllProduct())
+            dispatch(getAllCart(user._id))
+        }
     }, [dispatch]);
+
+    useEffect(() => {
+        // setIsLoading(true);
+        dispatch(getAllCategory())
+        if (user) {
+            dispatch(getAllCart(user._id))
+            dispatch(getAllProduct())
+        }
+    }, []);
     return <>
         <div className="iq-sidebar">
             <div className="iq-sidebar-logo d-flex justify-content-between">
@@ -224,27 +259,36 @@ const Header = () => {
                             <li className="nav-item nav-icon dropdown">
                                 <a href="#" className="search-toggle iq-waves-effect text-gray rounded">
                                     <i className="ri-shopping-cart-2-line"></i>
-                                    <span className="badge badge-danger count-cart rounded-circle">2</span>
+                                    <span className="badge badge-danger count-cart rounded-circle">{carts ? carts.length : 0}</span>
                                 </a>
                                 <div className="iq-sub-dropdown">
                                     <div className="iq-card shadow-none m-0">
                                         <div className="iq-card-body p-0 toggle-cart-info">
                                             <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">Giỏ Hàng<small className="badge  badge-light float-right pt-1">2</small></h5>
+                                                <h5 className="mb-0 text-white">Giỏ Hàng<small className="badge  badge-light float-right pt-1">{carts ? carts.length : 0}</small></h5>
                                             </div>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="rounded" src="src/style/images/cart/01.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Night People book</h6>
-                                                        <p className="mb-0">$32</p>
-                                                    </div>
-                                                    <div className="float-right font-size-24 text-danger"><i className="ri-close-fill"></i></div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card">
+                                            {carts?.map(item => {
+                                                const product = products.find((product: IProduct) => product._id === item.productId)
+                                                return <>
+                                                    <Link to={`/products/${product?._id}`} className="iq-sub-card">
+                                                        <div className="iq-sub-card">
+
+                                                            <div className="media align-items-center">
+                                                                <div className="">
+                                                                    <img className="rounded" src={product?.images} alt="" />
+                                                                </div>
+                                                                <div className="media-body ml-3">
+                                                                    <h6 className="mb-0 ">{product?.name}</h6>
+                                                                    <p className="mb-0">{product?.price}đ</p>
+                                                                </div>
+                                                                <div className="float-right font-size-24 text-danger" onClick={() => confirm(item._id)}><i className="ri-close-fill"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                </>
+                                            })}
+                                            {/* <a href="#" className="iq-sub-card">
                                                 <div className="media align-items-center">
                                                     <div className="">
                                                         <img className="rounded" src="src/style/images/cart/02.jpg" alt="" />
@@ -255,76 +299,108 @@ const Header = () => {
                                                     </div>
                                                     <div className="float-right font-size-24 text-danger"><i className="ri-close-fill"></i></div>
                                                 </div>
-                                            </a>
+                                            </a> */}
                                             <div className="d-flex align-items-center text-center p-3">
-                                                <a className="btn btn-primary mr-2 iq-sign-btn" href="checkout.html" role="button">Giỏ Hàng</a>
-                                                <a className="btn btn-primary iq-sign-btn" href="checkout.html" role="button">Thanh Toán</a>
+                                                <Link className="btn btn-primary mr-2 iq-sign-btn" to={`/cart`} role="button">Giỏ Hàng</Link>
+                                                <Link className="btn btn-primary iq-sign-btn" to={`/checkout`} role="button">Thanh Toán</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li className="line-height pt-3">
-                                <a href="#" className="search-toggle iq-waves-effect d-flex align-items-center">
-                                    <img src="src/style/images/user/1.jpg" className="img-fluid rounded-circle mr-3" alt="user" />
-                                    <div className="caption">
-                                        <h6 className="mb-1 line-height">Ông Trần Thuận</h6>
-                                        <p className="mb-0 text-primary">Tài Khoản</p>
-                                    </div>
-                                </a>
-                                <div className="iq-sub-dropdown iq-user-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white line-height">Xin Chào Ông Trần Thuận</h5>
-                                            </div>
-                                            <a href="profile-edit.html" className="iq-sub-card iq-bg-primary-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-primary">
-                                                        <i className="ri-file-user-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Tài khoản của tôi</h6>
-                                                    </div>
+                            {user ?
+                                <li className="line-height pt-3">
+                                    <a href="#" className="search-toggle iq-waves-effect d-flex align-items-center">
+                                        {/* <img src="src/style/images/user/1.jpg" className="img-fluid rounded-circle mr-3" alt="user" /> */}
+                                        <div className="caption">
+                                            <h6 className="mb-1 line-height">{user.fullname}</h6>
+                                            <p className="mb-0 text-primary">Tài Khoản</p>
+                                        </div>
+                                    </a>
+                                    <div className="iq-sub-dropdown iq-user-dropdown">
+                                        <div className="iq-card shadow-none m-0">
+                                            <div className="iq-card-body p-0 ">
+                                                <div className="bg-primary p-3">
+                                                    <h5 className="mb-0 text-white line-height">Xin Chào {user.fullname}</h5>
                                                 </div>
-                                            </a>
-                                            <a href="profile-edit.html" className="iq-sub-card iq-bg-primary-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-primary">
-                                                        <i className="ri-profile-line"></i>
+                                                <a href="profile-edit.html" className="iq-sub-card iq-bg-primary-hover">
+                                                    <div className="media align-items-center">
+                                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                                            <i className="ri-file-user-line"></i>
+                                                        </div>
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Tài khoản của tôi</h6>
+                                                        </div>
                                                     </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Sổ địa chỉ</h6>
+                                                </a>
+                                                <a href="#" className="iq-sub-card iq-bg-primary-hover">
+                                                    <div className="media align-items-center">
+                                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                                            <i className="ri-account-box-line"></i>
+                                                        </div>
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Đơn hàng của tôi</h6>
+                                                        </div>
                                                     </div>
+                                                </a>
+                                                <a href="#" className="iq-sub-card iq-bg-primary-hover">
+                                                    <div className="media align-items-center">
+                                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                                            <i className="ri-heart-line"></i>
+                                                        </div>
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Yêu Thích</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div className="d-inline-block w-100 text-center p-3">
+                                                    <a className="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i className="ri-login-box-line ml-2"></i></a>
                                                 </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card iq-bg-primary-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-primary">
-                                                        <i className="ri-account-box-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Đơn hàng của tôi</h6>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card iq-bg-primary-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-primary">
-                                                        <i className="ri-heart-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Yêu Thích</h6>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <div className="d-inline-block w-100 text-center p-3">
-                                                <a className="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i className="ri-login-box-line ml-2"></i></a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+
+                                :
+                                <li className="line-height pt-3">
+                                    <a href="#" className="search-toggle iq-waves-effect d-flex align-items-center">
+                                        {/* <img src="src/style/images/user/1.jpg" className="img-fluid rounded-circle mr-3" alt="user" /> */}
+                                        <div className="caption">
+                                            <h6 className="mb-1 line-height">Tài khoản</h6>
+                                            {/* <p className="mb-0 text-primary">Tài Khoản</p> */}
+                                        </div>
+                                    </a>
+                                    <div className="iq-sub-dropdown iq-user-dropdown">
+                                        <div className="iq-card shadow-none m-0">
+                                            <div className="iq-card-body p-0 ">
+                                                <div className="bg-primary p-3">
+                                                    <h5 className="mb-0 text-white line-height">Xin Chào </h5>
+                                                </div>
+                                                <Link to={`/signup`} className="iq-sub-card iq-bg-primary-hover">
+                                                    <div className="media align-items-center">
+                                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                                            <i className="ri-file-user-line"></i>
+                                                        </div>
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Đăng ký</h6>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                                <Link to={`/signin`} className="iq-sub-card iq-bg-primary-hover">
+                                                    <div className="media align-items-center">
+                                                        <div className="rounded iq-card-icon iq-bg-primary">
+                                                            <i className="ri-account-box-line"></i>
+                                                        </div>
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Đăng nhập</h6>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </nav>

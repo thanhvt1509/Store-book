@@ -18,6 +18,9 @@ const Checkout = () => {
 
     const carts = useAppSelector((state) => state.Cart.carts);
     const products = useAppSelector((state) => state.Product.products);
+
+    const user = JSON.parse(localStorage.getItem("user")!)
+
     let totalMoney: number = 0;
     carts?.map(item => {
         totalMoney += item.totalMoney
@@ -26,7 +29,7 @@ const Checkout = () => {
     let newCart: IOrderDetail[] = []
 
     carts?.map(item => {
-        newCart.push({ productId: item._id, price: item.price, quantity: item.quantity, totalMoney: item.totalMoney })
+        newCart.push({ productId: item.productId, price: item.price, quantity: item.quantity, totalMoney: item.totalMoney })
     })
 
     // const [quantity, setQuantity] = useState(1)
@@ -45,7 +48,7 @@ const Checkout = () => {
     const onSubmit = async (order: IOrder) => {
         try {
 
-            const addNewOrder = { ...order, totalMoney: totalMoney + 40000, vourcher_code: '', status: 1, carts: newCart };
+            const addNewOrder = { ...order, userId: user._id, totalMoney: totalMoney + 40000, vourcher_code: '', status: 1, carts: newCart };
             // console.log(addNewOrder);
 
             await dispatch(createOrder(addNewOrder));
@@ -58,7 +61,7 @@ const Checkout = () => {
             //     // console.log(orderState.orders);
 
             alert("Thanh toán thành công");
-            // navigate('/')
+            navigate('/cart')
         } catch (error) {
             console.log(error);
         }

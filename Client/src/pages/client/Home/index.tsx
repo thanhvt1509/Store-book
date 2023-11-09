@@ -13,6 +13,11 @@ const homePage = () => {
         // setIsLoading(true);
         dispatch(getAllProduct())
     }, [dispatch]);
+
+    useEffect(() => {
+        // setIsLoading(true);
+        dispatch(getAllProduct())
+    }, []);
     return <>
         <div className="wrapper">
             <Header />

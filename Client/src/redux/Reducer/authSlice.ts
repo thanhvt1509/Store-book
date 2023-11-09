@@ -5,6 +5,7 @@ interface initialState {
     auth: any;
     loading: boolean;
     error: string | undefined;
+
 }
 
 const initialState: initialState = {

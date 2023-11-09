@@ -21,7 +21,7 @@ export const getAllCart = createAsyncThunk(
         const {
             data: { carts }
         } = await axios.get<{ carts: ICart[] }>(
-            `http://localhost:8080/api/carts${query ?? ""}`
+            `http://localhost:8080/api/carts/${query ?? ""}`
         );
         return carts;
     }

@@ -12,9 +12,11 @@ import signin from "../pages/client/Signin/index.";
 import signup from "../pages/client/Signup";
 import categoryPage from "../pages/admin/CategoryPage";
 import Checkout from "../pages/client/Checkout";
+import Product from "../pages/client/Product";
 
 export const publicRoutes = [
     { path: routes.home, Component: homePage },
+    { path: routes.products, Component: Product },
     { path: routes.productDetail, Component: productDetail },
     { path: routes.cart, Component: cart },
     { path: routes.checkout, Component: Checkout },

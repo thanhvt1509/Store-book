@@ -5,8 +5,8 @@ const router = express.Router();
 
 router
     .post('/', create)
-    .get('/', getAll)
-    .get('/:id', get)
+    .get('/:id', getAll)
+    // .get('/:id', get)
     .patch('/:id', update)
     .delete('/:id', remove)
 

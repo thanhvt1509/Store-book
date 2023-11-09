@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/hook";
 import { handleLogin } from "../../../redux/Reducer/authSlice";
+import { useLocalStorage } from "../../../hook/useLocalStorage";
 
 type FormDataType = {
     email: string;
@@ -14,11 +15,18 @@ const signin = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const [user, setUser] = useLocalStorage("user", null);
+
 
     const onFinish = async (data: FormDataType) => {
         try {
             const result = await dispatch(handleLogin(data));
+            console.log(result);
+
             const userData = (result.payload as any).user;
+            // console.log(userData);
+
+            setUser({ accessToken: result?.payload?.accessToken, ...result?.payload?.user });
             message.success("Login successfully!");
 
             if (userData.role === 'admin') {

@@ -1,5 +1,4 @@
 interface IOrderDetail {
-    createdAt: any;
     _id?: string;
     orderId?: string;
     productId: string;

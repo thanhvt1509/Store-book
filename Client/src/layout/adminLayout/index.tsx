@@ -59,11 +59,11 @@ const AdminLayout = ({ children }: Props) => {
                     bottom: 0,
                 }}
             >
-                <Space className='flex justify-center'>
+                {/* <Space className='flex justify-center'>
                     <img src="../../public/image/logo.png" alt=""
                         className=' w-24 '
                     />
-                </Space>
+                </Space> */}
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>

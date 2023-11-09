@@ -2,7 +2,8 @@ import Cart from "../models/cart";
 export const getAll = async (req, res) => {
     try {
         // const { docs: carts } = await Cart.paginate(optinos);
-        const carts = await Cart.find()
+        const Allcarts = await Cart.find()
+        const carts = Allcarts.filter(cart => cart.userId === req.params.id)
         if (!carts) {
             return res.status(404).json({
                 message: "Cart not found",
