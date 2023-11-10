@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import Footer from "../../../compoment/footer";
 import Header from "../../../compoment/header";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
-import { getAllCart, removeCart } from "../../../redux/Reducer/CartSlice";
+import { getAllCart, removeCart, updateCart } from "../../../redux/Reducer/CartSlice";
 import { getAllProduct, removeProduct } from "../../../redux/Reducer/ProductSlice";
 import IProduct from "../../../interface/product";
 import { message } from "antd";
 import { Link } from "react-router-dom";
+import ICart from "../../../interface/cart";
 
 
 const cart = () => {
@@ -53,6 +54,26 @@ const cart = () => {
         }
     }
 
+    const handleQuantityChange = async (id: string, productId: string, newQuantity: number, updatedTotalMoney: number, price: number) => {
+        try {
+            const cart: ICart = {
+                _id: id,
+                productId: productId,
+                quantity: newQuantity,
+                totalMoney: updatedTotalMoney,
+                price: price
+            }
+            await dispatch(updateCart(cart));
+            // Update local state
+            // const updatedCarts = carts.map((item) =>
+            //     item._id === productId ? { ...item, quantity: newQuantity, totalMoney: updatedTotalMoney } : item
+            // );
+            dispatch(getAllCart(user._id));
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+        }
+    };
+
     return <>
         <div className="wrapper">
             <Header />
@@ -94,9 +115,9 @@ const cart = () => {
                                                                         <div className="col-sm-10">
                                                                             <div className="row align-items-center mt-2">
                                                                                 <div className="col-sm-7 col-md-6">
-                                                                                    <button type="button" className="fa fa-minus qty-btn" id="btn-minus"></button>
+                                                                                    <button type="button" onClick={() => handleQuantityChange(item._id, item.productId, item?.quantity - 1, (item?.quantity - 1) * item?.price, item.price)} className="fa fa-minus qty-btn" id="btn-minus"></button>
                                                                                     <input type="text" id="quantity" value={item.quantity} />
-                                                                                    <button type="button" className="fa fa-plus qty-btn" id="btn-plus"></button>
+                                                                                    <button type="button" onClick={() => handleQuantityChange(item._id, item.productId, item?.quantity + 1, (item?.quantity + 1) * item?.price, item.price)} className="fa fa-plus qty-btn" id="btn-plus"></button>
                                                                                 </div>
                                                                                 <div className="col-sm-5 col-md-6">
                                                                                     <span className="product-price">{item.totalMoney}</span>

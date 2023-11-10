@@ -13,6 +13,11 @@ import signup from "../pages/client/Signup";
 import categoryPage from "../pages/admin/CategoryPage";
 import Checkout from "../pages/client/Checkout";
 import Product from "../pages/client/Product";
+import BillConfirm from "../pages/client/BillConfirm";
+import MyOrder from "../pages/client/MyOrder";
+import orderDetail from "../pages/client/OrderDetail";
+import ordersPage from "../pages/admin/OrderPage";
+import orderUpdate from "../pages/admin/OrderUpdate";
 
 export const publicRoutes = [
     { path: routes.home, Component: homePage },
@@ -20,6 +25,9 @@ export const publicRoutes = [
     { path: routes.productDetail, Component: productDetail },
     { path: routes.cart, Component: cart },
     { path: routes.checkout, Component: Checkout },
+    { path: routes.billconfirm, Component: BillConfirm },
+    { path: routes.myorder, Component: MyOrder },
+    { path: routes.order, Component: orderDetail },
     { path: routes.signin, Component: signin },
     { path: routes.signup, Component: signup },
 ]
@@ -33,4 +41,7 @@ export const privateRoutes = [
     { path: routes.adminCategorys, Component: categoryPage },
     { path: routes.adminCategoryAdd, Component: categoryAdd },
     { path: routes.adminCategoryUpdate, Component: categoryUpdate },
+    { path: routes.adminOrders, Component: ordersPage },
+    { path: routes.adminOrderUpdate, Component: orderUpdate },
+
 ]

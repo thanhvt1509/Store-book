@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getAllCategory } from "../redux/Reducer/CategorySlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllCart, removeCart } from "../redux/Reducer/CartSlice";
 import { getAllProduct } from "../redux/Reducer/ProductSlice";
 import IProduct from "../interface/product";
@@ -9,6 +9,7 @@ import { message } from "antd";
 
 const Header = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const categories = useAppSelector((state) => state.Category.categories);
     const carts = useAppSelector((state) => state.Cart.carts);
 
@@ -26,6 +27,13 @@ const Header = () => {
             await dispatch(removeCart(id));
             message.success("Xóa sản phẩm thành công");
         }
+    }
+
+    const logout = () => {
+        localStorage.removeItem("myCat");
+        localStorage.clear();
+        message.success("Đăng xuất thành công");
+        navigate('/')
     }
 
     useEffect(() => {
@@ -112,7 +120,7 @@ const Header = () => {
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
                         <i className="ri-menu-3-line"></i>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div className=" navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto navbar-list">
                             <li className="nav-item nav-icon search-content">
                                 <a href="#" className="search-toggle iq-waves-effect text-gray rounded">
@@ -343,18 +351,8 @@ const Header = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="#" className="iq-sub-card iq-bg-primary-hover">
-                                                    <div className="media align-items-center">
-                                                        <div className="rounded iq-card-icon iq-bg-primary">
-                                                            <i className="ri-heart-line"></i>
-                                                        </div>
-                                                        <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Yêu Thích</h6>
-                                                        </div>
-                                                    </div>
-                                                </a>
                                                 <div className="d-inline-block w-100 text-center p-3">
-                                                    <a className="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i className="ri-login-box-line ml-2"></i></a>
+                                                    <button className="bg-primary iq-sign-btn" onClick={() => logout()} role="button">Sign out<i className="ri-login-box-line ml-2"></i></button>
                                                 </div>
                                             </div>
                                         </div>

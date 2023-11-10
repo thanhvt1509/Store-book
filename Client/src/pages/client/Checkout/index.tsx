@@ -9,6 +9,7 @@ import IOrder from "../../../interface/order";
 import { createOrder } from "../../../redux/Reducer/OrderSlice";
 import { useNavigate } from "react-router-dom";
 import IOrderDetail from "../../../interface/orderDetail";
+import { message } from "antd";
 
 const Checkout = () => {
     const dispatch = useAppDispatch();
@@ -51,7 +52,18 @@ const Checkout = () => {
             const addNewOrder = { ...order, userId: user._id, totalMoney: totalMoney + 40000, vourcher_code: '', status: 1, carts: newCart };
             // console.log(addNewOrder);
 
-            await dispatch(createOrder(addNewOrder));
+            // await dispatch(createOrder(addNewOrder));
+            const response = await dispatch(createOrder(addNewOrder));
+            message.success("Thanh toán thành công");
+
+            if (createOrder.fulfilled.match(response)) {
+                const orderId = response.payload._id;
+                console.log(orderId);
+
+                setTimeout(() => {
+                    navigate(`/billconfirm/${orderId}`);
+                }, 2500);
+            }
 
 
             // await dispatch(fetchOrderAction())
@@ -60,8 +72,8 @@ const Checkout = () => {
 
             //     // console.log(orderState.orders);
 
-            alert("Thanh toán thành công");
-            navigate('/cart')
+            // alert("Thanh toán thành công");
+            // navigate('/cart')
         } catch (error) {
             console.log(error);
         }
@@ -132,22 +144,22 @@ const Checkout = () => {
                                                                     <div className="card-lists">
                                                                         <div className="form-group">
                                                                             <div className="custom-control custom-radio">
-                                                                                <input type="radio" id="credit" name="pay_method" value={1} className="custom-control-input" {...register("pay_method")} />
+                                                                                <input type="radio" id="credit" name="pay_method" value="ATM" className="custom-control-input" {...register("pay_method")} />
                                                                                 <label className="custom-control-label" htmlFor="credit" > Thẻ Tín dụng / Ghi nợ / ATM</label>
                                                                             </div>
                                                                             <div className="custom-control custom-radio">
-                                                                                <input type="radio" id="netbaking" name="pay_method" value={2} className="custom-control-input" {...register("pay_method")} />
+                                                                                <input type="radio" id="netbaking" name="pay_method" value="MOMO/ZALOPAY" className="custom-control-input" {...register("pay_method")} />
                                                                                 <label className="custom-control-label" htmlFor="netbaking" > Momo/ZaloPay</label>
                                                                             </div>
                                                                             <div className="custom-control custom-radio">
-                                                                                <input type="radio" id="cod" name="pay_method" value={3} className="custom-control-input" {...register("pay_method")} />
+                                                                                <input type="radio" id="cod" name="pay_method" value="COD" className="custom-control-input" {...register("pay_method")} />
                                                                                 <label className="custom-control-label" htmlFor="cod" > Thanh toán khi giao hàng </label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <hr />
                                                                     {/* <a id="deliver-address" href="" className="btn btn-primary d-block mt-1 next">Thanh toán</a> */}
-                                                                    <button id="deliver-address" type="submit" className="btn btn-primary d-block mt-1 next">Thanh toán</button>
+                                                                    <button id="deliver-address" className="btn btn-primary d-block mt-1 next">Thanh toán</button>
                                                                 </div>
                                                             </div>
                                                         </div>

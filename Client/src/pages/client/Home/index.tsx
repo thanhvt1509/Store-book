@@ -118,7 +118,7 @@ const homePage = () => {
                                             </div>
                                             <span className="text-dark mb-3 d-block">NGÀY ĐÒI NỢ – Payback Time
                                                 “Một cuộc sống hạnh phúc được bắt đầu từ những quyết định đầu tư khôn ngoan”</span>
-                                            <button type="submit" className="btn btn-primary learn-more">Xem thêm</button>
+                                            <button className="btn btn-primary learn-more">Xem thêm</button>
                                         </div>
                                     </div>
                                 </div>

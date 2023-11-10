@@ -8,6 +8,7 @@ import IProduct from "../../../interface/product";
 import ICart from "../../../interface/cart";
 import { createCart } from "../../../redux/Reducer/CartSlice";
 import { message } from "antd";
+import Item from "antd/es/list/Item";
 
 const productDetail = () => {
     const dispatch = useAppDispatch();
@@ -64,8 +65,8 @@ const productDetail = () => {
         navigate("/cart");
     }
 
-    const addToCart = async (cart: ICart, id: string) => {
-        await (createCart(cart));
+    const addToCart = async (cart: ICart) => {
+        await dispatch(createCart(cart));
         message.success("Add to cart successfully!");
         navigate(`/products/${id}`);
     }
@@ -141,13 +142,13 @@ const productDetail = () => {
                                                     </div>
                                                     <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</span>
                                                     <div className="text-primary mb-4">Tác giả: <span className="text-body">{product?.author}</span></div>
-                                                    <div className="inline-flex mb-4 py-2 px-3 bg-white border border-gray-200 rounded-lg dark:bg-slate-900 dark:border-gray-700" data-hs-input-number>
+                                                    <div className="inline-flex mb-4 py-2 px-3 bg-white border border-gray-200 rounded-lg dark:border-gray-700" data-hs-input-number>
                                                         <div className="flex items-center gap-x-1.5">
-                                                            <button type="button" onChange={() => decrease()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-input-number-decrement>
+                                                            <button onClick={() => decrease()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   dark:focus:outline-none dark:focus:ring-1 " data-hs-input-number-decrement>
                                                                 <svg className="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /></svg>
                                                             </button>
-                                                            <input className="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 dark:text-white" type="text" value={quantity} data-hs-input-number-input />
-                                                            <button type="button" onChange={() => increase()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-input-number-increment>
+                                                            <input className="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 " type="text" value={quantity} data-hs-input-number-input />
+                                                            <button onClick={() => increase()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   dark:focus:outline-none dark:focus:ring-1 " data-hs-input-number-increment>
                                                                 <svg className="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                                                             </button>
                                                         </div>
@@ -155,8 +156,8 @@ const productDetail = () => {
                                                     <div className="mb-4 d-flex align-items-center">
                                                         {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
                                                         <Link to={`/cart`} className="btn btn-primary view-more mr-2" onSubmit={addCart}>Mua ngay</Link> */}
-                                                        <button type="button" className="btn btn-primary view-more mr-2" onClick={() => addToCart(cart, product?._id)}>Thêm vào giỏ hàng</button>
-                                                        <button type="button" className="btn btn-primary view-more mr-2" onClick={() => addCart(cart)}>Mua ngay</button>
+                                                        <button className="btn btn-primary view-more mr-2" onClick={() => addToCart(cart)}>Thêm vào giỏ hàng</button>
+                                                        <button className="btn btn-primary view-more mr-2" onClick={() => addCart(cart)}>Mua ngay</button>
                                                     </div>
                                                     <div className="mb-3">
                                                         <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2"><i className="ri-heart-fill"></i></span><span>Thêm vào danh sách yêu thích</span></Link>

@@ -95,7 +95,7 @@ const Product = () => {
                                                         <input type="text" className="text search-input" placeholder="search here..." />
                                                         <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                                                     </form>
-                                                    <button type="submit" className="btn btn-primary search-data ml-2">Search</button>
+                                                    <button type="button" className="btn btn-primary search-data ml-2">Search</button>
                                                 </div>
                                             </li>
                                         </ul>

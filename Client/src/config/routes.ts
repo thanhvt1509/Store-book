@@ -5,6 +5,9 @@ const routes = {
     productDetail: "/products/:id",
     cart: "/cart",
     checkout: "/checkout",
+    billconfirm: "/billconfirm/:id",
+    order: "/account/order/:id",
+    myorder: "/myorder",
     signin: "/signin",
     signup: "/signup",
 
@@ -16,7 +19,10 @@ const routes = {
     adminProductUpdate: "/admin/product/update/:id",
     adminCategorys: "/admin/category",
     adminCategoryAdd: "/admin/category/add",
-    adminCategoryUpdate: "/admin/category/update/:id"
+    adminCategoryUpdate: "/admin/category/update/:id",
+    adminOrders: "/admin/order",
+    adminOrderUpdate: "/admin/order/:id",
+
 
 }
 

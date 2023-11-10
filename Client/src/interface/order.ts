@@ -9,7 +9,7 @@ interface IOrder {
     note: string;
     status: number;
     vourcher_code?: string;
-    pay_method: number;
+    pay_method: string;
     totalMoney: number;
     orderDetail?: IOrderDetail[]
 }

@@ -21,9 +21,22 @@ export const getAllOrder = createAsyncThunk(
         const {
             data: { orders }
         } = await axios.get<{ orders: IOrder[] }>(
-            `http://localhost:8080/api/orders${query ?? ""}`
+            `http://localhost:8080/api/orders/${query ?? ""}`
         );
         return orders;
+    }
+);
+
+export const getOrder = createAsyncThunk(
+    "order/getOrder",
+    async (query?: string) => {
+        console.log(query);
+        const {
+            data: { order }
+        } = await axios.get<{ order: IOrder[] }>(
+            `http://localhost:8080/api/orders/${query ?? ""}`
+        );
+        return order;
     }
 );
 
@@ -64,10 +77,21 @@ const orderSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getAllOrder.fulfilled, (state, action) => {
-                state.orders = action.payload.data;
+                state.orders = action.payload;
                 state.loading = false;
             })
             .addCase(getAllOrder.rejected, (state) => {
+                state.loading = false;
+            })
+            // Get Order
+            .addCase(getOrder.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getOrder.fulfilled, (state, action) => {
+                state.order = action.payload;
+                state.loading = false;
+            })
+            .addCase(getOrder.rejected, (state) => {
                 state.loading = false;
             })
             // Add Product

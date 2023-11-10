@@ -17,7 +17,6 @@ const initialState: initialState = {
 export const getAllCart = createAsyncThunk(
     "carts/getCarts",
     async (query?: string) => {
-        console.log(query);
         const {
             data: { carts }
         } = await axios.get<{ carts: ICart[] }>(
@@ -83,11 +82,28 @@ const cartSlice = createSlice({
             .addCase(createCart.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(createCart.fulfilled, (state) => {
-                state.loading = false;
-            })
+            // .addCase(createCart.fulfilled, (state) => {
+            //     state.loading = false;
+            // })
             .addCase(createCart.rejected, (state) => {
                 state.loading = false;
+            })
+
+            .addCase(createCart.fulfilled, (state, action) => {
+                state.loading = false;
+
+                const newItem = action.payload.data;
+
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                const checkItem = state.carts.findIndex(item => item.productId === newItem.productId);
+
+                if (checkItem !== -1) {
+                    // Sản phẩm đã tồn tại, cập nhật số lượng
+                    state.carts[checkItem].quantity = newItem.quantity;
+                } else {
+                    // Sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+                    state.carts = [...state.carts, newItem];
+                }
             })
             // Update Product
             .addCase(updateCart.pending, (state) => {
