@@ -56,12 +56,12 @@ const Header = () => {
     return <>
         <div className="iq-sidebar">
             <div className="iq-sidebar-logo d-flex justify-content-between">
-                <a href="index.html" className="header-logo">
+                <Link to={`/`} className="header-logo">
                     <img src="src/src/style/images/logo.png" className="img-fluid rounded-normal" alt="" />
                     <div className="logo-title">
                         <span className="text-primary text-uppercase">NHASACHTV</span>
                     </div>
-                </a>
+                </Link>
             </div>
             <div id="sidebar-scrollbar">
                 <nav className="iq-sidebar-menu">
@@ -341,7 +341,7 @@ const Header = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="#" className="iq-sub-card iq-bg-primary-hover">
+                                                <Link to={`/myorder`} className="iq-sub-card iq-bg-primary-hover">
                                                     <div className="media align-items-center">
                                                         <div className="rounded iq-card-icon iq-bg-primary">
                                                             <i className="ri-account-box-line"></i>
@@ -350,7 +350,7 @@ const Header = () => {
                                                             <h6 className="mb-0 ">Đơn hàng của tôi</h6>
                                                         </div>
                                                     </div>
-                                                </a>
+                                                </Link>
                                                 <div className="d-inline-block w-100 text-center p-3">
                                                     <button className="bg-primary iq-sign-btn" onClick={() => logout()} role="button">Sign out<i className="ri-login-box-line ml-2"></i></button>
                                                 </div>

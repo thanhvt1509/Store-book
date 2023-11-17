@@ -31,7 +31,7 @@ const homePage = () => {
                                         <h4 className="card-title mb-0">Gợi ý cho bạn</h4>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to="category.html" className="btn btn-sm btn-primary view-more">Xem Thêm</Link>
+                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem Thêm</Link>
                                     </div>
                                 </div>
                                 <div className="iq-card-body">
