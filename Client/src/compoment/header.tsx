@@ -67,26 +67,23 @@ const Header = () => {
                 <nav className="iq-sidebar-menu">
                     <ul id="iq-sidebar-toggle" className="iq-menu">
                         <li className="active active-menu">
-                            <a href="#dashboard" className="iq-waves-effect" data-toggle="collapse" aria-expanded="true"><span className="ripple rippleEffect"></span><i className="las la-home iq-arrow-left"></i><span>Trang Chủ</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                            <Link to={`/`} className="iq-waves-effect" data-toggle="collapse" aria-expanded="true"><span className="ripple rippleEffect"></span><i className="las la-home iq-arrow-left"></i><span>Trang Chủ</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></Link>
                             <ul id="dashboard" className="iq-submenu collapse show" data-parent="#iq-sidebar-toggle">
                             </ul>
                         </li>
                         <li>
-                            <a href="#ui-elements" className="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i className="lab la-elementor iq-arrow-left"></i><span>Danh mục sản phẩm</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                            <Link to={`/products`} className="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i className="lab la-elementor iq-arrow-left"></i><span>Danh mục sản phẩm</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></Link>
                             <ul id="ui-elements" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 {categories.map(item => {
                                     return <>
                                         <li className="elements">
-                                            <a href="#sub-menu" className="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i className="ri-play-circle-line"></i><span>{item.name}</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                            <Link to={`/products`} className="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i className="ri-play-circle-line"></i><span>{item.name}</span><i className="ri-arrow-right-s-line iq-arrow-right"></i></Link>
                                         </li>
 
                                     </>
                                 })}
                             </ul>
                         </li>
-                        <li><a href="book-page.html"><i className="ri-book-line"></i>Yêu Thích</a></li>
-                        <li><a href="book-pdf.html"><i className="ri-book-line"></i>Sách PDF</a></li>
-                        <li><a href="sign-in.html"><i className="ri-book-line"></i>Logout</a></li>
 
                     </ul>
                 </nav>

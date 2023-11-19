@@ -15,7 +15,6 @@ const productDetail = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState()
 
-
     const products = useAppSelector((state) => state.Product.products);
     // const categories = useAppSelector((state) => state.Category.categories);
 
@@ -153,12 +152,21 @@ const productDetail = () => {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div className="mb-4 d-flex align-items-center">
-                                                        {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
+                                                    {user ?
+                                                        <div className="mb-4 d-flex align-items-center">
+                                                            {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
                                                         <Link to={`/cart`} className="btn btn-primary view-more mr-2" onSubmit={addCart}>Mua ngay</Link> */}
-                                                        <button className="btn btn-primary view-more mr-2" onClick={() => addToCart(cart)}>Thêm vào giỏ hàng</button>
-                                                        <button className="btn btn-primary view-more mr-2" onClick={() => addCart(cart)}>Mua ngay</button>
-                                                    </div>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addToCart(cart)}>Thêm vào giỏ hàng</button>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addCart(cart)}>Mua ngay</button>
+                                                        </div>
+                                                        :
+                                                        <div className="mb-4 d-flex align-items-center">
+                                                            {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
+                                                        <Link to={`/cart`} className="btn btn-primary view-more mr-2" onSubmit={addCart}>Mua ngay</Link> */}
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Thêm vào giỏ hàng</button>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Mua ngay</button>
+                                                        </div>
+                                                    }
                                                     <div className="mb-3">
                                                         <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2"><i className="ri-heart-fill"></i></span><span>Thêm vào danh sách yêu thích</span></Link>
                                                     </div>
@@ -193,7 +201,7 @@ const productDetail = () => {
                                         <h4 className="card-title mb-0">Sản phẩm tương tự</h4>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to="category.html" className="btn btn-sm btn-primary view-more">Xem thêm</Link>
+                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
                                     </div>
                                 </div>
                                 <div className="iq-card-body single-similar-contens">
@@ -299,7 +307,7 @@ const productDetail = () => {
                                         <h4 className="card-title mb-0">Thịnh hành</h4>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to="category.html" className="btn btn-sm btn-primary view-more">Xem thêm</Link>
+                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
                                     </div>
                                 </div>
                                 <div className="iq-card-body trendy-contens">
@@ -507,7 +515,7 @@ const productDetail = () => {
                                         <h4 className="card-title mb-0">Sách yêu thích</h4>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to="category.html" className="btn btn-sm btn-primary view-more">Xem thêm</Link>
+                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
                                     </div>
                                 </div>
                                 <div className="iq-card-body favorites-contens">
